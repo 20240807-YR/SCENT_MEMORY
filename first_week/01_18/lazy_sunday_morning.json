@@ -1,0 +1,51 @@
+{
+  "perfume": "Maison Margiela – Replica Lazy Sunday Morning",
+  "notes": {
+    "top": {
+      "ingredients": [
+        "Pear accord",
+        "Lily of the valley accord",
+        "Aldehydes"
+      ],
+      "sensory_keywords": [
+        "bright",
+        "fresh",
+        "pure",
+        "clean",
+        "airy"
+      ],
+      "visual_translation": "Translucent morning light filtering through curtains. Diffuse brightness with sparkling highlights, airy white floral softness, light particles floating in clean air."
+    },
+    "middle": {
+      "ingredients": [
+        "Iris accord",
+        "Rose absolute",
+        "Orange flower accord"
+      ],
+      "sensory_keywords": [
+        "powdery",
+        "soft",
+        "warm",
+        "skin-like",
+        "gentle"
+      ],
+      "visual_translation": "Soft sun-warmed glow with powdery textures. Gentle flowing motion, skin-toned warmth, delicate floral diffusion without sharp edges."
+    },
+    "base": {
+      "ingredients": [
+        "Indonesian patchouli oil",
+        "Ambrette seeds absolute",
+        "White musks"
+      ],
+      "sensory_keywords": [
+        "comforting",
+        "enveloping",
+        "silky",
+        "warm",
+        "clean"
+      ],
+      "visual_translation": "Dense yet airy softness like clean white fabric. Silky musks with gentle depth, slow-moving layers, comforting warmth without heaviness."
+    }
+  },
+  "overall_impression": "Clean, airy softness transitioning from translucent brightness to warm skin-like comfort, settling into a soft white cocoon."
+}
