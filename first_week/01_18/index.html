@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>SCENT Canvas Demo</title>
+  <style>
+    body {
+      margin: 0;
+      background: #111;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Canvas: canvas.js가 직접 참조 -->
+  <canvas id="scentCanvas" width="600" height="600"></canvas>
+
+  <!-- JSON 데이터 주입 (Python / Streamlit / Flask에서 렌더링) -->
+  <script>
+    /**
+     * 이 객체는 반드시 canvas.js보다 먼저 정의돼야 함
+     * Python에서 render_template / f-string / components.html 등으로 주입
+     */
+    window.visualEntities = {
+      top: [
+        { ingredient: "Bergamot", color: "#FFD966", motion: "fast_float" }
+      ],
+      middle: [
+        { ingredient: "Lavender", color: "#C9B6E4", motion: "slow_drift" }
+      ],
+      base: [
+        { ingredient: "Musk", color: "#8E7F6D", motion: "heavy_float" }
+      ]
+    };
+  </script>
+
+  <!-- Canvas 로직 -->
+  <script src="canvas.js"></script>
+
+</body>
+</html>

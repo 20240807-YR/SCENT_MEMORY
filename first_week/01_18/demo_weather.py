@@ -1,12 +1,12 @@
 import os
 import requests
 from datetime import datetime, timedelta
-
+print("KMA_SERVICE_KEY =", os.environ.get("KMA_SERVICE_KEY"))
 def _safe_base_time():
     now = datetime.now() - timedelta(minutes=40)
     return now.strftime("%H") + "00"
 
-def get_weather(nx=60, ny=127):
+def get_weather(date=None, nx=60, ny=127):
     service_key = os.environ.get("KMA_SERVICE_KEY")
 
     if not service_key:
@@ -16,7 +16,10 @@ def get_weather(nx=60, ny=127):
             "SKY": "1"
         }
 
-    base_date = datetime.now().strftime("%Y%m%d")
+    if date:
+        base_date = date.strftime("%Y%m%d")
+    else:
+        base_date = datetime.now().strftime("%Y%m%d")
     base_time = _safe_base_time()
 
     url = "https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getUltraSrtFcst"
