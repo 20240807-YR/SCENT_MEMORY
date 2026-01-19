@@ -1,4 +1,3 @@
-# prompt_builder.py
 import json
 
 def build_prompt(note_name, note_data, weather_context=None):
@@ -21,14 +20,40 @@ def load_perfume_json(path="lazy_sunday_morning.json"):
         return json.load(f)
 
 
+def build_note_prompts(perfume: dict, weather: dict):
+    weather_context = ""
+
+    if weather:
+        temp = weather.get("T1H", "")
+        reh = weather.get("REH", "")
+        sky = weather.get("SKY", "")
+        weather_context = f"temperature {temp}, humidity {reh}, sky {sky}"
+
+    return {
+        "top": build_prompt(
+            "top",
+            perfume["notes"]["top"],
+            weather_context
+        ),
+        "middle": build_prompt(
+            "middle",
+            perfume["notes"]["middle"],
+            weather_context
+        ),
+        "base": build_prompt(
+            "base",
+            perfume["notes"]["base"],
+            weather_context
+        ),
+    }
+
+
 if __name__ == "__main__":
     data = load_perfume_json()
+    prompts = build_note_prompts(
+        data,
+        {"T1H": 22, "REH": 55, "SKY": "1"}
+    )
 
-    for note in ["top", "middle", "base"]:
-        prompt = build_prompt(
-            note_name=note,
-            note_data=data["notes"][note],
-            weather_context="soft morning air, low contrast light"
-        )
-        print(f"\n[{note.upper()} PROMPT]\n")
-        print(prompt)
+    for k, v in prompts.items():
+        print(f"\n[{k.upper()}]\n{v}")

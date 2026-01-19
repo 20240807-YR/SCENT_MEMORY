@@ -1,9 +1,15 @@
+# app.py
+
 import os
 import streamlit as st
 from PIL import Image
-from openai import OpenAI
+import subprocess
+from pathlib import Path
+import sys
 
-client = OpenAI(api_key=os.environ["OPENAI_API_KEY"])
+BASE_DIR = Path(__file__).parent
+IMAGE_OUT = BASE_DIR / "image" / "main" / "scent_stack.png"
+PYTHON = sys.executable
 
 st.set_page_config(layout="wide")
 st.title("SCENT × CONTEXT DEMO")
@@ -14,55 +20,29 @@ sky = st.selectbox("Sky", ["Clear", "Cloudy", "Rainy"])
 
 image_file = st.file_uploader("Upload Image", type=["png", "jpg", "jpeg"])
 
-if "run" not in st.session_state:
-    st.session_state.run = False
+if image_file is not None:
+    input_image = Image.open(image_file)
+    st.subheader("Input Photo")
+    st.image(input_image, width=400)
 
-if st.button("Run Demo", key="run_demo"):
-    st.session_state.run = True
+run = st.button("Run Demo")
 
-if st.session_state.run and image_file:
-    image = Image.open(image_file)
+if run:
+    with st.spinner("Generating scent visualization..."):
+        try:
+            subprocess.run(
+                [PYTHON, "run_demo.py"],
+                cwd=BASE_DIR,
+                check=True,
+                env=os.environ.copy()
+            )
+        except subprocess.CalledProcessError:
+            st.error("Pipeline failed. Check terminal output.")
+            st.stop()
 
-    prompt = f"""
-You are a fragrance expert.
-
-Weather:
-- Temperature: {temp}°C
-- Humidity: {humidity}%
-- Sky: {sky}
-
-Tasks:
-1. Recommend ONE perfume
-2. Explain why this weather suits it
-3. Describe the emotion it evokes
-4. Explain why the uploaded image matches the scent
-
-Use calm, sensory language.
-No marketing tone.
-3 short paragraphs.
-"""
-
-    response = client.chat.completions.create(
-        model="gpt-4o-mini",  # ← 안정 + 멀티모달
-        messages=[
-            {
-                "role": "user",
-                "content": [
-                    {"type": "text", "text": prompt},
-                    {
-                        "type": "image_url",
-                        "image_url": {
-                            "url": image_file.getvalue(),
-                        },
-                    },
-                ],
-            }
-        ],
-        max_tokens=300,
-    )
-
-    st.subheader("Recommended Fragrance")
-    st.markdown(response.choices[0].message.content)
-
-    st.subheader("Visual Context")
-    st.image(image, use_column_width=True)
+    if IMAGE_OUT.exists():
+        st.subheader("Scent Visualization (Top / Middle / Base)")
+        result_image = Image.open(IMAGE_OUT)
+        st.image(result_image, use_column_width=True)
+    else:
+        st.error("Scent image not generated.")

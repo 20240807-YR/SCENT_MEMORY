@@ -1,22 +1,33 @@
 # ollama_prompt.py
 import subprocess
+import json
+from pathlib import Path
 
-def generate_visual_prompts(notes_text):
+BASE_DIR = Path(__file__).parent
+PERFUME_JSON = BASE_DIR / "lazy_sunday_morning.json"
+
+def load_perfume_notes():
+    with open(PERFUME_JSON, "r", encoding="utf-8") as f:
+        data = json.load(f)
+    return data["notes"]
+
+def generate_visual_prompt(note_type, note_text):
     prompt = f"""
-You are a system that converts perfume structure into abstract visual prompts.
+You are a system that converts perfume notes into abstract visual prompts for Stable Diffusion.
 
-Rules:
+Strict rules:
+- Abstract only
 - No literal objects
-- No flowers, fruits, wood depiction
-- Abstract, texture, motion, color only
+- No flowers, fruits, woods, or named materials
+- Use texture, light, motion, density, color, atmosphere
+- Describe visual sensation, not smell
+- One paragraph only
+- No titles, no explanations
 
-Perfume structure:
-{notes_text}
+Note type: {note_type}
 
-Return format:
-Top:
-Middle:
-Base:
+Note description:
+{note_text}
 """
 
     result = subprocess.run(
@@ -26,14 +37,17 @@ Base:
         capture_output=True
     )
 
-    return result.stdout
+    return result.stdout.strip()
 
+def generate_all_prompts():
+    notes = load_perfume_notes()
+    return {
+        "top": generate_visual_prompt("top", notes["top"]),
+        "middle": generate_visual_prompt("middle", notes["middle"]),
+        "base": generate_visual_prompt("base", notes["base"]),
+    }
 
 if __name__ == "__main__":
-    notes = """
-Top: citrus, aldehydes
-Middle: floral
-Base: woody, amber
-"""
-    prompts = generate_visual_prompts(notes)
-    print(prompts)
+    prompts = generate_all_prompts()
+    for k, v in prompts.items():
+        print(f"{k.upper()} PROMPT:\n{v}\n")

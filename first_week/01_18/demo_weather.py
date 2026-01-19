@@ -1,25 +1,27 @@
-# demo_weather.py
 import os
 import requests
 from datetime import datetime, timedelta
 
-SERVICE_KEY = os.environ["KMA_SERVICE_KEY"]
-
 def _safe_base_time():
-    """
-    기상청 초단기예보는 정시 기준.
-    현재 시각 기준으로 가장 가까운 과거 정시 사용
-    """
     now = datetime.now() - timedelta(minutes=40)
     return now.strftime("%H") + "00"
 
 def get_weather(nx=60, ny=127):
+    service_key = os.environ.get("KMA_SERVICE_KEY")
+
+    if not service_key:
+        return {
+            "T1H": 22,
+            "REH": 55,
+            "SKY": "1"
+        }
+
     base_date = datetime.now().strftime("%Y%m%d")
     base_time = _safe_base_time()
 
     url = "https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getUltraSrtFcst"
     params = {
-        "serviceKey": SERVICE_KEY,
+        "serviceKey": service_key,
         "pageNo": 1,
         "numOfRows": 100,
         "dataType": "JSON",
@@ -43,10 +45,12 @@ def get_weather(nx=60, ny=127):
 
         return weather
 
-    except Exception as e:
-        print("[WARN] Weather API failed, using fallback context")
-        return {}  # ← 데모용 fallback
-
+    except Exception:
+        return {
+            "T1H": 22,
+            "REH": 55,
+            "SKY": "1"
+        }
 
 def weather_to_visual_context(weather: dict) -> str:
     temp = int(weather.get("T1H", 20))
@@ -72,7 +76,7 @@ def weather_to_visual_context(weather: dict) -> str:
 
     return ", ".join(context) if context else "neutral atmospheric context"
 
-
 if __name__ == "__main__":
-    print(get_weather())
-    print(weather_to_visual_context(get_weather()))
+    w = get_weather()
+    print(w)
+    print(weather_to_visual_context(w))

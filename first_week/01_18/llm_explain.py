@@ -1,3 +1,5 @@
+# llm_explain.py
+
 import os
 from openai import OpenAI
 
@@ -8,20 +10,21 @@ def generate_explanation(weather, perfume, is_match: bool) -> str:
         return "This fragrance may feel less balanced under today's weather conditions."
 
     prompt = f"""
-You are a fragrance recommendation assistant.
+You are a fragrance explanation module.
 
 Weather:
-- Temperature: {weather['temp']}°C
-- Humidity: {weather['humidity']}%
-- Sky: {weather['sky']}
+- Temperature: {weather["temp"]}°C
+- Humidity: {weather["humidity"]}%
+- Sky: {weather["sky"]}
 
 Perfume:
-Name: {perfume['name']}
+Name: {perfume["name"]}
 Description:
-{perfume['description']}
+{perfume["description"]}
 
-Explain in 2–3 sentences why this fragrance suits today's weather.
-Use calm, sensory language.
+Task:
+Explain in 2–3 calm, sensory sentences why this fragrance suits today's weather.
+No marketing tone.
 """
 
     response = client.chat.completions.create(
