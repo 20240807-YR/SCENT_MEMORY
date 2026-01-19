@@ -3,18 +3,56 @@
 <head>
   <meta charset="UTF-8" />
   <title>SCENT Canvas Demo</title>
+</title>
   <style>
-    body {
+    html, body {
       margin: 0;
-      background: #111;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: radial-gradient(circle at top, #1a1325 0%, #0b0b0f 70%);
+      font-family: "Times New Roman", serif;
+      color: #e6e6e6;
+    }
+
+    canvas {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+    }
+
+    .hero {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 10;
+      text-align: center;
+      pointer-events: none;
+    }
+
+    .hero h1 {
+      margin: 0;
+      font-size: 64px;
+      font-weight: 300;
+      letter-spacing: 0.12em;
+    }
+
+    .hero p {
+      margin-top: 12px;
+      font-size: 14px;
+      letter-spacing: 0.3em;
+      opacity: 0.7;
     }
   </style>
 </head>
 <body>
+
+  <div class="hero">
+    <h1>SCENT CANVAS</h1>
+    <p>Top · Middle · Base</p>
+  </div>
 
   <!-- Canvas: canvas.js가 직접 참조 -->
   <canvas id="scentCanvas" width="600" height="600"></canvas>
@@ -27,13 +65,25 @@
      */
     window.visualEntities = {
       top: [
-        { ingredient: "Bergamot", color: "#FFD966", motion: "fast_float" }
+        {
+          ingredients: ["Bergamot"],
+          motion: "fast_float",
+          image: "assets/top.png"
+        }
       ],
       middle: [
-        { ingredient: "Lavender", color: "#C9B6E4", motion: "slow_drift" }
+        {
+          ingredients: ["Lavender"],
+          motion: "slow_drift",
+          image: "assets/middle.png"
+        }
       ],
       base: [
-        { ingredient: "Musk", color: "#8E7F6D", motion: "heavy_float" }
+        {
+          ingredients: ["Musk"],
+          motion: "heavy_float",
+          image: "assets/base.png"
+        }
       ]
     };
   </script>

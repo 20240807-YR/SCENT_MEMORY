@@ -1,3 +1,4 @@
+import os
 # ollama_prompt.py
 
 import subprocess
@@ -20,34 +21,45 @@ def build_prompt(notes, weather_context=None):
         weather_block = f"\nWeather context:\n{weather_context}\n"
 
     return f"""
-You are a system that designs visual entities for an interactive, animated visualization.
+You are a system that writes short, abstract visual prompts for Stable Diffusion image generation.
 
 STRICT RULES:
-- Output JSON only
+- Output plain text only
+- No JSON
 - No markdown
-- No explanation text
-- No trailing comments
-- No natural language outside JSON
-- This JSON will be consumed directly by code
+- No explanation
+- No titles
+- Avoid photorealistic language
+- Background should be soft and simple (no solid background color)
 
-Each entity represents a perfume ingredient as an abstract moving visual object.
+You must generate THREE separate prompts, one for each perfume note layer.
+Each prompt should be 1–2 lines max and abstract flower-style.
 
-Allowed values:
-shape: small_circle | grain | soft_wave | particle | fog | line
-motion: fast_float | slow_drift | heavy_float | pulse | jitter
-color: HEX string
+Output format (MUST FOLLOW EXACTLY):
 
-Output format (MUST MATCH EXACTLY):
+TOP NOTE:
+(one short abstract flower-style image prompt)
 
-{{
-  "top": [],
-  "middle": [],
-  "base": []
-}}
+MIDDLE NOTE:
+(one short abstract flower-style image prompt)
+
+BASE NOTE:
+(one short abstract flower-style image prompt)
 
 Perfume notes:
 {json.dumps(notes, ensure_ascii=False, indent=2)}
 {weather_block}
+
+Example (FORMAT ONLY):
+
+TOP NOTE:
+A light abstract citrus blossom cluster, pale yellow tones, airy, floating, soft glow, isolated, soft background, no solid background color
+
+MIDDLE NOTE:
+A gentle lavender flower form, pastel purple tones, calm, smooth diffusion, dreamy, isolated, soft background, no solid background color
+
+BASE NOTE:
+A deep woody floral abstraction, muted brown and cream tones, dense, grounded, slow presence, isolated, soft background, no solid background color
 """
 
 
@@ -64,10 +76,16 @@ def generate_visual_entities(weather_context=None):
 
     output = result.stdout.strip()
 
-    json.loads(output)
-
     return output
 
 
 if __name__ == "__main__":
-    print(generate_visual_entities())
+    ENV_NOTE_PROMPTS = os.environ.get("SCENT_NOTE_PROMPTS")
+
+    if ENV_NOTE_PROMPTS:
+        NOTE_PROMPTS_RAW = ENV_NOTE_PROMPTS
+    else:
+        NOTE_PROMPTS_RAW = generate_visual_entities()
+        os.environ["SCENT_NOTE_PROMPTS"] = NOTE_PROMPTS_RAW
+
+    print(NOTE_PROMPTS_RAW)
