@@ -31,6 +31,10 @@ const particles = [];
 let mouseX = 0;
 let mouseY = 0;
 let hoveredParticle = null;
+const infoCard = document.getElementById('scentInfoCard');
+const cardTitle = document.getElementById('cardTitle');
+const cardIngredients = document.getElementById('cardIngredients');
+const cardDesc = document.getElementById('cardDesc');
 
 class Cluster {
   constructor(cx, cy, item, zone) {
@@ -143,12 +147,47 @@ function initParticles() {
 function animate(time) {
   ctx.clearRect(0, 0, WIDTH, HEIGHT);
 
+  let activeParticle = null;
+
   particles.forEach((p) => {
+    const dx = mouseX - p.cx;
+    const dy = mouseY - p.cy;
+    const dist = Math.sqrt(dx * dx + dy * dy);
+
+    if (dist < 120) {
+      p.isHovered = true;
+      activeParticle = p;
+    } else {
+      p.isHovered = false;
+    }
+
     p.move();
-    p.draw(ctx, time);
+    p.draw(ctx);
   });
 
+  updateInfoCard(activeParticle);
   requestAnimationFrame(animate);
+}
+
+function updateInfoCard(particle) {
+  if (particle && infoCard) {
+    cardTitle.innerText = particle.zone.toUpperCase() + " NOTE";
+    cardIngredients.innerText = particle.ingredient || "";
+    cardDesc.innerText = particle.motion || "";
+
+    const offset = 20;
+    let left = mouseX + offset;
+    let top = mouseY + offset;
+
+    infoCard.style.left = left + 'px';
+    infoCard.style.top = top + 'px';
+    infoCard.classList.add('visible');
+
+    canvas.style.cursor = 'pointer';
+  } else if (infoCard) {
+    infoCard.classList.remove('visible');
+    canvas.style.cursor = 'default';
+  }
 }
 
 canvas.addEventListener("click", (e) => {

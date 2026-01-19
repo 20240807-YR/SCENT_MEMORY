@@ -5,7 +5,6 @@ import json
 import torch
 from diffusers import StableDiffusionPipeline
 import argparse
-from rembg import remove
 
 from prompt_builder import load_perfume_json
 from demo_weather import get_weather, weather_to_visual_context
@@ -63,8 +62,6 @@ high quality abstract texture, painterly diffusion
         height=512,
         width=512
     ).images[0]
-
-    image = remove(image)
 
     output_path = out_path if out_path is not None else (IMAGE_DIR / f"{note_type}.png")
     image.save(output_path)

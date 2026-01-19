@@ -45,7 +45,7 @@ def ensure_flower_images():
             )
             if result.returncode != 0:
                 raise RuntimeError(
-                    f"sd_generate failed:\\nSTDOUT:\\n{result.stdout}\\nSTDERR:\\n{result.stderr}"
+                    f"sd_generate failed:\nSTDOUT:\n{result.stdout}\nSTDERR:\n{result.stderr}"
                 )
 
 st.set_page_config(layout="wide")
@@ -106,19 +106,58 @@ if run:
             st.error(f"Pipeline failed: {e}")
             st.stop()
 
-    html_code = f"""
-<html>
-  <body>
-    <canvas id="scentCanvas" width="600" height="600"></canvas>
+    st.markdown("---")
+    st.subheader("SCENT CANVAS")
 
-    <script>
-      // JSON injected from Python
-      window.visualEntities = {json.dumps(visual_entities)};
-      console.log("visualEntities injected:", window.visualEntities);
-    </script>
+    HTML_FILE = BASE_DIR / "index.html"
 
-    <script src="canvas.js"></script>
-  </body>
-</html>
-"""
-    components.html(html_code, height=900)
+    if not HTML_FILE.exists():
+        st.error("index.html 파일을 찾을 수 없습니다.")
+    else:
+        with open(HTML_FILE, "r", encoding="utf-8") as f:
+            index_html = f.read()
+        # 클릭 가능한 카드 UI
+        card_html = f"""
+        <style>
+          .scent-preview {{
+            width: 100%;
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 24px;
+            border-radius: 6px;
+            background: linear-gradient(135deg, #141418, #0d0d10);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+          }}
+
+          .scent-preview:hover {{
+            transform: translateY(-2px);
+            box-shadow: 0 18px 60px rgba(0,0,0,0.6);
+          }}
+
+          .scent-preview h3 {{
+            margin: 0 0 8px 0;
+            color: #ffffff;
+            font-family: "Times New Roman", serif;
+            letter-spacing: 0.2em;
+            font-size: 14px;
+          }}
+
+          .scent-preview p {{
+            margin: 0;
+            color: #bbbbbb;
+            font-size: 12px;
+            font-family: sans-serif;
+          }}
+        </style>
+
+        <div class="scent-preview"
+             onclick="window.open(window.location.origin + '/_stcore/streamlit_static/index.html', '_blank')">
+          <h3>SCENT CANVAS</h3>
+          <p>Click to open interactive scent visualization</p>
+        </div>
+        """
+
+        components.html(card_html, height=140)
+        components.html(index_html, height=900, scrolling=False)
