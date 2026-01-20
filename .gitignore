@@ -205,3 +205,13 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+first_week/data_csv/description_embedding.csv
+first_week/data_csv/notes_embeddings.csv
+first_week/data_csv/perfumes_table.csv
+first_week/data_csv/reviews_embeddings.csv
+first_week/data_csv/data_npy/description_embedding.npy
+first_week/data_csv/data_npy/notes_embeddings.npy
+first_week/data_csv/data_npy/perfumes_table.npy
+first_week/data_csv/data_npy/reviews_embeddings.npy
+first_week/data_csv/final_perfume_data.csv
+
