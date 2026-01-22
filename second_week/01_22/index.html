@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SCENT CANVAS</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div id="petal-container"></div>
+
+    <main class="scroll-container">
+        <section class="section" id="intro-page">
+            <div class="intro-content">
+                <p class="brand-tag">Maison Margiela</p>
+                <h1 class="main-title">SCENT CANVAS</h1>
+                <p class="scroll-hint">Scroll to Discover</p>
+            </div>
+        </section>
+
+        <section class="section" id="agent-page">
+            <div class="core-container">
+                <div class="agent-interpretation">
+                    <div class="agent-profile">
+                        <img src="../01_21/assets/images/agent.png" alt="Aura Muse" class="agent-avatar">
+                        <span class="agent-name">AURA MUSE</span>
+                    </div>
+                    
+                    <h1 class="scent-name">LAZY SUNDAY MORNING</h1>
+                    
+                    <div class="chat-interface">
+                        <div id="chat-history">
+                        </div>
+
+                        <div class="chat-input-wrapper">
+                            <input type="text" id="user-input" placeholder="Aura Muse와 대화를 시작해보세요." autocomplete="off">
+                            <button id="send-btn">SEND</button>
+                        </div>
+                    </div>
+                </div>
+
+                <nav class="scent-nav">
+                    <ul>
+                        <li><button class="nav-btn" data-target="top">TOP NOTE</button></li>
+                        <li><button class="nav-btn" data-target="middle">MIDDLE NOTE</button></li>
+                        <li><button class="nav-btn" data-target="base">BASE NOTE</button></li>
+                        <li class="separator"></li>
+                        <li><button class="nav-btn special" data-target="overall">OVERALL IMPRESSION</button></li>
+                    </ul>
+                </nav>
+            </div>
+        </section>
+    </main>
+
+    <div id="visual-overlay" class="hidden">
+        <button id="close-overlay-btn">CLOSE ×</button>
+        <div class="video-wrapper">
+            <video id="evidence-video" playsinline loop muted>
+                <source src="" type="video/mp4">
+            </video>
+            <div class="overlay-caption">
+                <h2 id="overlay-title">NOTE TITLE</h2>
+                <p id="overlay-desc">Visual Description</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,160 @@
+/* --- Reset & Global --- */
+:root {
+    --bg-black: #080808; /* 깊은 검은색 */
+    --text-white: #f0f0f0;
+    --accent-gold: #d4af37;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { 
+    background-color: var(--bg-black); 
+    color: var(--text-white); 
+    font-family: 'Montserrat', sans-serif; 
+    overflow: hidden; 
+}
+
+::-webkit-scrollbar { display: none; }
+
+/* --- 꽃잎 파티클 스타일 (새로 추가) --- */
+#petal-container {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    pointer-events: none; /* 클릭 통과 */
+    z-index: 101; /* 오버레이보다 위에 표시 */
+    overflow: hidden;
+}
+
+.petal {
+    position: absolute;
+    top: -20px;
+    width: 15px; height: 15px;
+    background-color: var(--petal-color, #fff); /* 기본 흰색 */
+    border-radius: 50% 0 50% 50%; /* 꽃잎 모양 */
+    opacity: 0.8;
+    animation: floatAndFade 6s linear forwards;
+}
+
+@keyframes floatAndFade {
+    0% {
+        transform: translateY(0) rotate(0deg) translateX(0);
+        opacity: 0;
+    }
+    10% { opacity: 0.8; }
+    90% { opacity: 0.8; }
+    100% {
+        transform: translateY(100vh) rotate(360deg) translateX(100px);
+        opacity: 0;
+    }
+}
+
+/* --- Scroll Snap --- */
+.scroll-container {
+    height: 100vh;
+    overflow-y: scroll;
+    scroll-snap-type: y mandatory;
+    scroll-behavior: smooth;
+}
+
+.section {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    scroll-snap-align: start;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--bg-black); /* 모든 섹션 배경 검은색 */
+}
+
+/* --- PAGE 1: Intro (배경 영상 제거) --- */
+/* #intro-page .video-bg 및 #intro-page video 스타일 제거 또는 주석 처리 */
+
+.intro-content {
+    position: relative; z-index: 10; text-align: center;
+    opacity: 0; transform: translateY(30px); transition: all 1.5s ease;
+}
+.section.active .intro-content { opacity: 1; transform: translateY(0); }
+
+.brand-tag { font-size: 0.9rem; letter-spacing: 0.2em; margin-bottom: 10px; color: #aaa; }
+.main-title { font-family: 'Cinzel', serif; font-size: 4rem; letter-spacing: 0.1em; margin-bottom: 20px; color: var(--text-white); }
+.scroll-hint { font-size: 0.8rem; opacity: 0.7; margin-top: 30px; animation: bounce 2s infinite; }
+
+@keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(10px); } }
+
+/* --- PAGE 2: Agent (배경 이미지 제거) --- */
+/* #agent-page .bg-layer 및 .bg-image 스타일 제거 또는 주석 처리 */
+
+.core-container {
+    position: relative; z-index: 10; width: 90%; max-width: 1200px; display: flex;
+    justify-content: space-between; align-items: flex-start;
+}
+
+.agent-interpretation { flex: 2; padding-right: 50px; }
+.agent-profile { display: flex; align-items: center; gap: 15px; margin-bottom: 20px; }
+.agent-avatar { width: 50px; height: 50px; border-radius: 50%; border: 1px solid var(--accent-gold); object-fit: cover; }
+.agent-name { font-size: 0.9rem; letter-spacing: 0.2em; color: var(--accent-gold); }
+
+.scent-name { font-family: 'Cinzel', serif; font-size: 3rem; margin-bottom: 30px; line-height: 1.2; color: var(--text-white); }
+
+/* Chat Interface (기존 유지) */
+.chat-interface {
+    width: 100%; max-width: 500px;
+    border-left: 2px solid var(--accent-gold);
+    padding-left: 20px;
+    background: rgba(0, 0, 0, 0.3);
+}
+/* ... (이하 채팅 및 네비게이션, 오버레이 스타일은 기존 style.css 내용 유지) ... */
+#chat-history {
+    height: 180px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; margin-bottom: 15px;
+    padding-right: 5px; scrollbar-width: none;
+}
+.message { font-size: 0.9rem; line-height: 1.5; max-width: 95%; animation: fadeIn 0.3s; }
+.agent-msg { color: #ddd; text-align: left; }
+.user-msg { color: var(--accent-gold); text-align: right; align-self: flex-end; }
+
+.chat-input-wrapper { display: flex; border-bottom: 1px solid rgba(255,255,255,0.3); padding-bottom: 5px; }
+#user-input {
+    flex: 1; background: transparent; border: none; color: white; font-size: 1rem; outline: none;
+}
+#send-btn {
+    background: transparent; border: none; color: var(--accent-gold); font-family: 'Cinzel', serif; cursor: pointer;
+}
+#send-btn:hover { opacity: 0.8; }
+
+/* Navigation */
+.scent-nav { flex: 1; text-align: right; display: flex; flex-direction: column; align-items: flex-end; justify-content: center; height: 100%; padding-top: 50px;}
+.scent-nav ul { list-style: none; }
+.scent-nav li { margin-bottom: 25px; }
+.nav-btn {
+    background: none; border: none; color: #666; font-size: 1.1rem; letter-spacing: 0.2em; cursor: pointer; transition: all 0.3s;
+}
+.nav-btn:hover { color: #fff; transform: translateX(-10px); }
+.separator { height: 1px; width: 30px; background: #333; margin: 20px 0 20px auto; display: block; }
+.nav-btn.special { color: var(--accent-gold); }
+
+/* Overlay */
+#visual-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.95); z-index: 100;
+    display: flex; justify-content: center; align-items: center;
+    opacity: 0; pointer-events: none; transition: opacity 0.5s;
+}
+#visual-overlay.visible { opacity: 1; pointer-events: auto; }
+#visual-overlay.hidden { display: none; }
+
+.video-wrapper { width: 80%; max-width: 900px; text-align: center; position: relative; }
+#evidence-video { width: 100%; max-height: 70vh; object-fit: contain; border: 1px solid #333; }
+.overlay-caption { margin-top: 20px; }
+#overlay-title { font-family: 'Cinzel', serif; font-size: 2rem; color: var(--accent-gold); margin-bottom: 10px; }
+#overlay-desc { font-size: 1rem; color: #ccc; letter-spacing: 0.1em; }
+
+#close-overlay-btn {
+    position: absolute; top: 30px; right: 30px;
+    background: none; border: 1px solid #fff; color: #fff;
+    padding: 10px 20px; cursor: pointer; font-family: 'Montserrat', sans-serif;
+    z-index: 101; transition: all 0.3s;
+}
+#close-overlay-btn:hover { background: #fff; color: #000; }
+
+@keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
