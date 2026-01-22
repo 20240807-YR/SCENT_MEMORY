@@ -1,192 +1,188 @@
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Montserrat:wght@300;400;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500&family=Montserrat:wght@300;400;500&display=swap');
 
-/* --- 1. 기본 리셋 --- */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+/* --- 0. Global Variables & Reset --- */
+:root {
+    --particle-color: rgba(255, 255, 255, 0.8);
+    --chat-bg: #1a1a1a; /* 채팅창 배경색 (블랙 계열) */
+    --chat-header-bg: #111; /* 헤더 배경색 */
+    --chat-text: #eee; /* 기본 텍스트 색상 */
+    --bot-bubble-bg: #333; /* 봇 말풍선 색상 */
+    --user-bubble-bg: #d4af37; /* 유저 말풍선 (골드 포인트) */
+    --user-bubble-text: #1a1a1a; /* 유저 말풍선 텍스트 */
 }
 
-body {
-    background-color: #000;
-    color: #fff;
-    font-family: 'Montserrat', sans-serif;
-    overflow: hidden; /* 스크롤바 숨김 */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background-color: #000; color: #fff; font-family: 'Montserrat', sans-serif; overflow: hidden; }
+button { font-family: 'Montserrat', sans-serif; cursor: pointer; border: none; outline: none; }
+
+/* --- Particle System --- */
+#particle-container {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    z-index: 15; pointer-events: none;
+}
+.petal {
+    position: absolute; background: var(--particle-color);
+    border-radius: 150% 0 150% 0; opacity: 0;
+    box-shadow: 0 0 5px var(--particle-color);
+    animation: float-petal 10s linear forwards;
+    transition: background 0.5s ease;
+}
+@keyframes float-petal {
+    0% { opacity: 0; transform: translateY(-10vh) translateX(0) rotate(0deg) scale(0.5); }
+    10% { opacity: 0.9; }
+    90% { opacity: 0.9; }
+    100% { opacity: 0; transform: translateY(100vh) translateX(50px) rotate(360deg) scale(1); }
 }
 
-/* --- 2. 스크롤 컨테이너 (Snap) --- */
+/* --- Scroll Container & Sections --- */
 .scroll-container {
-    height: 100vh;
-    overflow-y: scroll;
-    scroll-snap-type: y mandatory;
-    scroll-behavior: smooth;
+    height: 100vh; overflow-y: scroll; scroll-snap-type: y mandatory;
+    scroll-behavior: smooth; position: relative; z-index: 10;
 }
-
-/* --- 3. 공통 섹션 레이아웃 --- */
 .section {
-    position: relative;
-    width: 100%;
-    height: 100vh;
-    scroll-snap-align: start;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
-    background-color: #000; /* 혹시 모를 빈 공간 검정 처리 */
+    position: relative; width: 100%; height: 100vh;
+    scroll-snap-align: start; display: flex; justify-content: center; align-items: center;
+    overflow: hidden; background-color: #000;
 }
-
-/* --- 4. HERO SECTION (수정됨: 심플 블랙) --- */
-.hero-section {
-    background-color: #000000;
-    z-index: 20;
-}
-
-/* Hero Content */
-.hero-content {
-    position: relative;
-    z-index: 10;
-    text-align: center;
-    /* 서서히 나타나는 효과 */
-    animation: fadeUp 1.5s ease-out forwards;
-}
-
-.brand-tag {
-    font-size: 0.9rem;
-    letter-spacing: 0.5em;
-    text-transform: uppercase;
-    color: rgba(255, 255, 255, 0.6);
-    margin-bottom: 30px;
-    display: block;
-}
-
-.main-title {
-    font-family: 'Cinzel', serif;
-    font-size: 6vw; /* 화면 크기 비례 */
-    letter-spacing: 0.25em; /* 명품 스타일 자간 */
-    font-weight: 400;
-    color: #ffffff;
-    margin-bottom: 20px;
-    /* 빛 번짐 효과 */
-    text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
-}
-
-.sub-title {
-    font-size: 1rem;
-    font-weight: 300;
-    letter-spacing: 0.2em;
-    color: rgba(255, 255, 255, 0.8);
-}
-
-/* 스크롤 아이콘 */
-.scroll-indicator {
-    position: absolute;
-    bottom: 50px;
-    left: 50%;
-    transform: translateX(-50%);
-    opacity: 0.6;
-}
-.mouse {
-    width: 26px; height: 42px;
-    border: 1px solid rgba(255,255,255,0.8);
-    border-radius: 20px;
-    position: relative;
-}
-.wheel {
-    width: 2px; height: 6px;
-    background: #fff;
-    position: absolute;
-    top: 8px; left: 50%;
-    transform: translateX(-50%);
-    animation: scrollWheel 1.5s infinite;
-}
-
-/* --- 5. NOTE SECTIONS (비디오 배경) --- */
 .video-bg {
-    position: absolute;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    z-index: 0;
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    z-index: 0; pointer-events: none;
 }
-
 .video-bg video {
-    width: 100%; height: 100%;
-    object-fit: cover; /* 화면 꽉 채우기 */
-    opacity: 0.8; /* 너무 쨍하지 않게 살짝 톤다운 (선택사항) */
+    width: 100%; height: 100%; object-fit: cover; opacity: 1;
+    filter: brightness(1.0); transition: filter 0.8s ease;
 }
+.section.dim-video .video-bg video { filter: brightness(0.3) blur(2px); }
 
-/* 호버 영역 및 유리 카드 */
-.hover-area {
-    position: absolute;
-    width: 100%; height: 100%;
-    z-index: 10;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: crosshair;
+/* --- Hero Section --- */
+.hero-section { z-index: 20; }
+.hero-content { position: relative; z-index: 10; text-align: center; pointer-events: none; }
+.brand-tag { font-size: 0.9rem; letter-spacing: 0.5em; text-transform: uppercase; color: rgba(255,255,255,0.8); margin-bottom: 20px; }
+.main-title { font-family: 'Cinzel', serif; font-size: 5rem; letter-spacing: 0.2em; margin-bottom: 30px; text-shadow: 0 0 30px rgba(255,255,255,0.3); }
+.title-separator { width: 1px; height: 60px; background: rgba(255,255,255,0.5); margin: 0 auto 30px; }
+.sub-title { font-size: 1.1rem; letter-spacing: 0.2em; color: rgba(255,255,255,0.7); }
+.scroll-indicator { position: absolute; bottom: 50px; left: 50%; transform: translateX(-50%); z-index: 10; opacity: 0.6; text-align: center; pointer-events: none; }
+.mouse { width: 24px; height: 40px; border: 1px solid #fff; border-radius: 12px; margin: 10px auto 0; position: relative; }
+.wheel { width: 2px; height: 6px; background: #fff; position: absolute; top: 6px; left: 50%; transform: translateX(-50%); animation: scroll 1.5s infinite; }
+
+/* --- Click Area & Glass Card --- */
+.click-area {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    z-index: 20; display: flex; justify-content: center; align-items: center;
+    pointer-events: none;
 }
-
+.click-area.show-info { pointer-events: auto; }
 .glass-card {
-    width: 450px;
-    padding: 60px 40px;
+    position: relative; width: 500px; padding: 60px 40px;
     background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-    text-align: center;
-    
-    opacity: 0;
-    transform: translateY(50px) scale(0.95);
-    transition: all 0.6s cubic-bezier(0.2, 1, 0.3, 1);
+    backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    text-align: center; box-shadow: 0 30px 60px rgba(0,0,0,0.4);
+    opacity: 0; transform: translateY(30px) scale(0.95);
+    transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    pointer-events: auto;
+}
+.click-area.show-info .glass-card { opacity: 1; transform: translateY(0) scale(1); }
+.btn-close {
+    position: absolute; top: 20px; right: 20px;
+    background: none; border: none; color: rgba(255,255,255,0.6);
+    font-size: 2rem; line-height: 1; transition: color 0.3s; z-index: 100;
+}
+.btn-close:hover { color: #fff; transform: scale(1.1); }
+.card-title { font-family: 'Cinzel', serif; font-size: 4rem; margin: 20px 0; color: #fff; text-shadow: 0 0 15px rgba(255,255,255,0.3); }
+.note-label { font-family: 'Montserrat', sans-serif; font-weight: 500; letter-spacing: 0.3em; color: rgba(255,255,255,0.7); font-size: 0.9rem; }
+.line { width: 1px; height: 40px; background: rgba(255,255,255,0.5); margin: 20px auto; }
+.card-desc p { font-size: 1.1rem; letter-spacing: 0.1em; margin-bottom: 10px; }
+.sub-desc { display: block; font-size: 0.9rem; color: rgba(255,255,255,0.6); margin-top: 15px; font-weight: 300; }
+
+/* --- (삭제됨) AI Agent 관련 스타일 --- */
+
+/* --- Chat Open Button (새로 추가) --- */
+#open-chat-btn {
+    position: fixed; bottom: 30px; right: 30px;
+    width: 60px; height: 60px; border-radius: 50%;
+    background: var(--user-bubble-bg); color: var(--user-bubble-text);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    display: flex; justify-content: center; align-items: center;
+    z-index: 90; transition: transform 0.3s ease;
+}
+#open-chat-btn:hover { transform: scale(1.1); }
+
+/* --- Chat Window (Black Theme Renewal) --- */
+#chat-window {
+    position: fixed; bottom: 100px; right: 30px; width: 380px; height: 600px;
+    background: var(--chat-bg); color: var(--chat-text);
+    border-radius: 20px; box-shadow: 0 15px 40px rgba(0,0,0,0.7);
+    z-index: 100; display: flex; flex-direction: column;
+    opacity: 0; pointer-events: none; transform: translateY(30px) scale(0.95);
+    transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+    overflow: hidden; border: 1px solid #333;
+}
+#chat-window.open { opacity: 1; pointer-events: all; transform: translateY(0) scale(1); }
+
+/* Header */
+.chat-header {
+    background: var(--chat-header-bg); padding: 15px 20px;
+    display: flex; align-items: center; gap: 15px;
+    border-bottom: 1px solid #333;
+}
+.header-img { width: 45px; height: 45px; border-radius: 50%; object-fit: cover; border: 2px solid var(--user-bubble-bg); }
+.header-info { flex: 1; display: flex; flex-direction: column; }
+.advisor-name { font-weight: 600; font-size: 1rem; color: #fff; }
+.advisor-status { font-size: 0.75rem; color: #888; }
+.close-chat { background: none; color: #888; font-size: 2rem; line-height: 1; transition: color 0.3s; }
+.close-chat:hover { color: #fff; }
+
+/* Messages Area */
+.chat-messages {
+    flex: 1; padding: 20px; overflow-y: auto;
+    display: flex; flex-direction: column; gap: 15px;
+    background: var(--chat-bg); /* 스크롤 영역 배경 */
 }
 
-.hover-area:hover .glass-card {
-    opacity: 1;
-    transform: translateY(0) scale(1);
+/* Message Bubbles */
+.message {
+    display: flex; max-width: 85%;
+    align-items: flex-end; font-size: 0.95rem; line-height: 1.5;
+}
+.bubble {
+    padding: 12px 18px; border-radius: 18px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    word-break: break-word;
+}
+/* Bot Message (Left) */
+.message.bot { align-self: flex-start; }
+.message.bot .bubble {
+    background: var(--bot-bubble-bg); color: var(--chat-text);
+    border-bottom-left-radius: 4px;
+}
+/* User Message (Right) */
+.message.user { align-self: flex-end; }
+.message.user .bubble {
+    background: var(--user-bubble-bg); color: var(--user-bubble-text);
+    border-bottom-right-radius: 4px; font-weight: 500;
 }
 
-.note-label {
-    display: block;
-    font-family: 'Cinzel', serif;
-    font-size: 0.9rem;
-    letter-spacing: 0.3em;
-    color: rgba(255,255,255,0.7);
-    margin-bottom: 20px;
+/* Input Area */
+.chat-input-area {
+    background: var(--chat-header-bg); padding: 15px;
+    display: flex; gap: 10px; align-items: center;
+    border-top: 1px solid #333;
 }
-
-.card-title {
-    font-family: 'Cinzel', serif;
-    font-size: 3rem;
-    margin-bottom: 25px;
-    text-transform: uppercase;
+#chat-input {
+    flex: 1; background: #2a2a2a; border: 1px solid #444;
+    padding: 14px 18px; border-radius: 25px; outline: none;
+    color: var(--chat-text); font-size: 0.95rem;
+    transition: border-color 0.3s;
 }
-
-.line {
-    width: 1px; height: 50px;
-    background: rgba(255,255,255,0.4);
-    margin: 0 auto 25px;
+#chat-input:focus { border-color: var(--user-bubble-bg); }
+#chat-input::placeholder { color: #777; }
+#send-btn {
+    background: var(--user-bubble-bg); color: var(--user-bubble-text);
+    width: 45px; height: 45px; border-radius: 50%;
+    display: flex; justify-content: center; align-items: center;
+    box-shadow: 0 3px 8px rgba(212, 175, 55, 0.3);
+    transition: transform 0.2s, background-color 0.2s;
 }
-
-.card-desc {
-    font-size: 1.1rem;
-    font-weight: 300;
-    letter-spacing: 0.05em;
-    line-height: 1.6;
-}
-
-/* --- 6. 애니메이션 --- */
-@keyframes fadeUp {
-    from { opacity: 0; transform: translateY(30px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes scrollWheel {
-    0% { opacity: 1; top: 8px; }
-    100% { opacity: 0; top: 20px; }
-}
-
-/* 모바일 대응 */
-@media (max-width: 768px) {
-    .main-title { font-size: 3.5rem; letter-spacing: 0.1em; }
-    .glass-card { width: 90%; padding: 40px 20px; }
-}
+#send-btn:hover { transform: scale(1.05); background-color: #c4a030; }
+#send-btn svg { fill: currentColor; display: block; }
