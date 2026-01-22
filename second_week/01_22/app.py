@@ -34,7 +34,7 @@ def chat():
                 {"role": "user", "content": user_message}
             ],
             temperature=0.7,
-            max_tokens=200
+            max_tokens=300
         )
 
         bot_reply = response.choices[0].message.content.strip()
