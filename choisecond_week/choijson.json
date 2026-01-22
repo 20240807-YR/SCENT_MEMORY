@@ -1,0 +1,51 @@
+{
+  "perfume": "YSL – Libre EDP",
+  "notes": {
+    "top": {
+      "ingredients": [
+        "Tangerine",
+        "Neroli",
+        "Lavender"
+      ],
+      "sensory_keywords": [
+        "Energetic",
+        "Fresh",
+        "Aromatic",
+        "Sparkling"
+      ],
+      "visual_translation": "The sparkling burst of bright orange Tangerine juice reflecting in the sunlight. Amidst this, dewy white Neroli petals emerge, merging with a vast, swaying field of purple Lavender under a crisp breeze.",
+      "image": "choi/images/top/top.png"
+    },
+    "middle": {
+      "ingredients": [
+        "Jasmine",
+        "Orange Blossom"
+      ],
+      "sensory_keywords": [
+        "Opulent",
+        "Feminine",
+        "SolarRadiance",
+        "Silky"
+      ],
+      "visual_translation": "Golden Orange Blossoms blooming brilliantly as they soak up the intense sun, while moonlit white Jasmine wraps around them with a texture as smooth and sophisticated as silk.",
+      "image": "choi/images/middle/middle.png"
+    },
+    "base": {
+      "ingredients": [
+        "White Musk",
+        "Tonka Bean",
+        "Vanilla"
+      ],
+      "sensory_keywords": [
+        "warmth",
+        "Trail",
+        "Softness",
+        "Addictive",
+        "Closure"
+      ],
+      "visual_translation": "A warm, mist-filled space with no clear boundaries, glowing softly from within. Creamy white and amber tones blend like skin and air becoming one. Slow golden vibrations pulse from the center, while vanilla-like light ribbons melt and flow, leaving traces of warmth and memory.",
+      "image": "choi/images/base/base.png"
+    }
+  },
+  "overall_impression": "A journey that begins with cool air and ends on warm skin. The opening bursts with light as mandarin and neroli cut through the space, while lavender brings a refined balance. As the scent unfolds, jasmine and orange blossom form the heart, revealing a floral warmth and quiet sensuality. In the final stage, white musk, tonka bean, and vanilla cling to the skin, leaving a soft yet deep trail. The fragrance ultimately becomes a memory of freedom and strength softened by warmth, where light and body heat coexist."
+}
