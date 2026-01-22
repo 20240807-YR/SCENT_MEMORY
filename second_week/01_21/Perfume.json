@@ -1,0 +1,17 @@
+{
+  "perfume_name": "향수 이름",
+  "notes": {
+    "top_note": {
+      "text": "첫 향 서술",
+      "visual_description": "시각적 묘사"
+    },
+    "middle_note": {
+      "text": "중간 향 서술",
+      "visual_description": "시각적 묘사"
+    },
+    "base_note": {
+      "text": "잔향 서술",
+      "visual_description": "시각적 묘사"
+    }
+  }
+}

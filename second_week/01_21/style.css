@@ -1,0 +1,192 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Montserrat:wght@300;400;600&display=swap');
+
+/* --- 1. 기본 리셋 --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #000;
+    color: #fff;
+    font-family: 'Montserrat', sans-serif;
+    overflow: hidden; /* 스크롤바 숨김 */
+}
+
+/* --- 2. 스크롤 컨테이너 (Snap) --- */
+.scroll-container {
+    height: 100vh;
+    overflow-y: scroll;
+    scroll-snap-type: y mandatory;
+    scroll-behavior: smooth;
+}
+
+/* --- 3. 공통 섹션 레이아웃 --- */
+.section {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    scroll-snap-align: start;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    background-color: #000; /* 혹시 모를 빈 공간 검정 처리 */
+}
+
+/* --- 4. HERO SECTION (수정됨: 심플 블랙) --- */
+.hero-section {
+    background-color: #000000;
+    z-index: 20;
+}
+
+/* Hero Content */
+.hero-content {
+    position: relative;
+    z-index: 10;
+    text-align: center;
+    /* 서서히 나타나는 효과 */
+    animation: fadeUp 1.5s ease-out forwards;
+}
+
+.brand-tag {
+    font-size: 0.9rem;
+    letter-spacing: 0.5em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.6);
+    margin-bottom: 30px;
+    display: block;
+}
+
+.main-title {
+    font-family: 'Cinzel', serif;
+    font-size: 6vw; /* 화면 크기 비례 */
+    letter-spacing: 0.25em; /* 명품 스타일 자간 */
+    font-weight: 400;
+    color: #ffffff;
+    margin-bottom: 20px;
+    /* 빛 번짐 효과 */
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+}
+
+.sub-title {
+    font-size: 1rem;
+    font-weight: 300;
+    letter-spacing: 0.2em;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+/* 스크롤 아이콘 */
+.scroll-indicator {
+    position: absolute;
+    bottom: 50px;
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0.6;
+}
+.mouse {
+    width: 26px; height: 42px;
+    border: 1px solid rgba(255,255,255,0.8);
+    border-radius: 20px;
+    position: relative;
+}
+.wheel {
+    width: 2px; height: 6px;
+    background: #fff;
+    position: absolute;
+    top: 8px; left: 50%;
+    transform: translateX(-50%);
+    animation: scrollWheel 1.5s infinite;
+}
+
+/* --- 5. NOTE SECTIONS (비디오 배경) --- */
+.video-bg {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: 0;
+}
+
+.video-bg video {
+    width: 100%; height: 100%;
+    object-fit: cover; /* 화면 꽉 채우기 */
+    opacity: 0.8; /* 너무 쨍하지 않게 살짝 톤다운 (선택사항) */
+}
+
+/* 호버 영역 및 유리 카드 */
+.hover-area {
+    position: absolute;
+    width: 100%; height: 100%;
+    z-index: 10;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: crosshair;
+}
+
+.glass-card {
+    width: 450px;
+    padding: 60px 40px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+    text-align: center;
+    
+    opacity: 0;
+    transform: translateY(50px) scale(0.95);
+    transition: all 0.6s cubic-bezier(0.2, 1, 0.3, 1);
+}
+
+.hover-area:hover .glass-card {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+}
+
+.note-label {
+    display: block;
+    font-family: 'Cinzel', serif;
+    font-size: 0.9rem;
+    letter-spacing: 0.3em;
+    color: rgba(255,255,255,0.7);
+    margin-bottom: 20px;
+}
+
+.card-title {
+    font-family: 'Cinzel', serif;
+    font-size: 3rem;
+    margin-bottom: 25px;
+    text-transform: uppercase;
+}
+
+.line {
+    width: 1px; height: 50px;
+    background: rgba(255,255,255,0.4);
+    margin: 0 auto 25px;
+}
+
+.card-desc {
+    font-size: 1.1rem;
+    font-weight: 300;
+    letter-spacing: 0.05em;
+    line-height: 1.6;
+}
+
+/* --- 6. 애니메이션 --- */
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes scrollWheel {
+    0% { opacity: 1; top: 8px; }
+    100% { opacity: 0; top: 20px; }
+}
+
+/* 모바일 대응 */
+@media (max-width: 768px) {
+    .main-title { font-size: 3.5rem; letter-spacing: 0.1em; }
+    .glass-card { width: 90%; padding: 40px 20px; }
+}
