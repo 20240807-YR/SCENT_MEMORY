@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SCENT FLOW – Final</title>
+
+<style>
+html, body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    font-family: 'Montserrat', sans-serif;
+    background: black;
+}
+
+section {
+    position: absolute;
+    inset: 0;
+    transition: opacity 0.8s ease;
+}
+
+/* =======================
+   VISIBILITY CONTROL
+======================= */
+.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+.visible {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* =======================
+   INTRO VIDEO
+======================= */
+#intro {
+    z-index: 1;
+}
+
+#intro video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* =======================
+   NOTE SELECT
+======================= */
+#note-select {
+    display: flex;
+    z-index: 2;
+}
+
+.note {
+    flex: 1;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 32px;
+    letter-spacing: 4px;
+    background: rgba(0,0,0,0.55);
+    cursor: pointer;
+    transition: all 0.4s ease;
+}
+
+.note:hover {
+    background: rgba(0,0,0,0.2);
+}
+
+.preview {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+.note:hover .preview {
+    opacity: 1;
+}
+
+/* =======================
+   NOTE DETAIL
+======================= */
+.note-screen {
+    z-index: 3;
+}
+
+.note-screen video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.note-info {
+    position: absolute;
+    bottom: 10%;
+    left: 8%;
+    color: white;
+}
+
+.note-info h1 {
+    font-size: 48px;
+    margin-bottom: 10px;
+}
+
+.note-info p {
+    opacity: 0.8;
+}
+
+/* =======================
+   BACK BUTTON
+======================= */
+.back-btn {
+    position: absolute;
+    top: 24px;
+    left: 24px;
+    z-index: 10;
+    background: rgba(0,0,0,0.45);
+    color: white;
+    border: 1px solid rgba(255,255,255,0.4);
+    padding: 8px 16px;
+    cursor: pointer;
+    letter-spacing: 1px;
+    backdrop-filter: blur(8px);
+}
+
+.back-btn:hover {
+    background: rgba(0,0,0,0.7);
+}
+</style>
+</head>
+
+<body>
+
+<!-- INTRO -->
+<section id="intro" class="visible">
+    <video autoplay muted loop playsinline>
+        <source src="./video/ysl_allvideo.mp4" type="video/mp4">
+    </video>
+</section>
+
+<!-- NOTE SELECT -->
+<section id="note-select" class="hidden">
+
+    <div class="note" data-target="top-screen">
+        TOP
+        <div class="preview" style="background-image:url('./assets/images/top_preview.jpg')"></div>
+    </div>
+
+    <div class="note" data-target="middle-screen">
+        MIDDLE
+        <div class="preview" style="background-image:url('./assets/images/middle_preview.jpg')"></div>
+    </div>
+
+    <div class="note" data-target="base-screen">
+        BASE
+        <div class="preview" style="background-image:url('./assets/images/base_preview.jpg')"></div>
+    </div>
+
+</section>
+
+<!-- TOP -->
+<section id="top-screen" class="note-screen hidden">
+    <button class="back-btn">← BACK</button>
+    <video autoplay muted loop playsinline>
+        <source src="./video/top/top.mp4" type="video/mp4">
+    </video>
+    <div class="note-info">
+        <h1>Tangerine ·Lavender · Neroli</h1>
+        <p>Energetic / Fresh / Aromatic / Sparkling</p>
+    </div>
+</section>
+
+<!-- MIDDLE -->
+<section id="middle-screen" class="note-screen hidden">
+    <button class="back-btn">← BACK</button>
+    <video autoplay muted loop playsinline>
+        <source src="./video/middle/middle.mp4" type="video/mp4">
+    </video>
+    <div class="note-info">
+        <h1>Jasmine · Orange Blossom</h1>
+        <p>Opulent / Feminine / olarRadiance / Silky</p>
+    </div>
+</section>
+
+<!-- BASE -->
+<section id="base-screen" class="note-screen hidden">
+    <button class="back-btn">← BACK</button>
+    <video autoplay muted loop playsinline>
+        <source src="./video/base/base.mp4" type="video/mp4">
+    </video>
+    <div class="note-info">
+        <h1>White Musk · Tonka Bean · Vanilla</h1>
+        <p>Warmth / Trail / Softness / Addictive / Closure</p>
+    </div>
+</section>
+
+<script>
+const intro = document.getElementById('intro');
+const introVideo = intro.querySelector('video');
+const noteSelect = document.getElementById('note-select');
+const noteScreens = document.querySelectorAll('.note-screen');
+
+let isFirstVisit = true;
+
+/* util */
+function show(el) {
+    el.classList.remove('hidden');
+    el.classList.add('visible');
+}
+function hide(el) {
+    el.classList.remove('visible');
+    el.classList.add('hidden');
+}
+
+/* 최초 진입 */
+function firstIntro() {
+    show(intro);
+    hide(noteSelect);
+    noteScreens.forEach(hide);
+
+    introVideo.currentTime = 0;
+    introVideo.play();
+
+    setTimeout(() => {
+        hide(intro);
+        show(noteSelect);
+        isFirstVisit = false;
+    }, 8000);
+}
+
+/* BACK용 intro (즉시 선택화면) */
+function backIntro() {
+    show(intro);
+    show(noteSelect); // ← 바로 선택화면
+
+    noteScreens.forEach(hide);
+
+    introVideo.currentTime = 0;
+    introVideo.play();
+}
+
+/* 최초 실행 */
+firstIntro();
+
+/* 노트 클릭 */
+document.querySelectorAll('.note').forEach(note => {
+    note.addEventListener('click', () => {
+        hide(noteSelect);
+        noteScreens.forEach(hide);
+        show(document.getElementById(note.dataset.target));
+    });
+});
+
+/* BACK */
+document.querySelectorAll('.back-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+        backIntro();
+    });
+});
+</script>
+
+
+
+</body>
+</html>
