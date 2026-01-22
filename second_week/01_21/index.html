@@ -3,80 +3,120 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SCENT CANVAS</title>
+    <title>SCENT CANVAS - Luxury Edition</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
+    <div id="particle-container"></div>
+
     <main class="scroll-container">
 
-        <section class="section hero-section">
+        <section class="section hero-section" id="hero">
+            <div class="hero-bg"></div> 
             <div class="hero-content">
-                <p class="brand-tag">The Olfactory Art</p>
-                <h1 class="main-title">SCENT CANVAS</h1>
-                <p class="sub-title">Discover the Invisible Masterpiece</p>
+                <p class="brand-tag">Maison Margiela Presents</p>
+                <h1 class="main-title" id="main-title-text">SCENT CANVAS</h1>
+                <div class="title-separator"></div>
+                <p class="sub-title">The Art of Invisible Masterpiece</p>
             </div>
-
             <div class="scroll-indicator">
-                <div class="mouse">
-                    <div class="wheel"></div>
-                </div>
+                <span>Explore the Notes</span>
+                <div class="mouse"><div class="wheel"></div></div>
             </div>
         </section>
 
-
-        <section class="section note-section">
+        <section class="section note-section" id="top-note">
             <div class="video-bg">
-                <video autoplay muted loop playsinline poster="./assets/images/top/top.png">
+                <video muted loop playsinline poster="./assets/images/top/top.png">
                     <source src="./assets/video/top/top.mp4" type="video/mp4">
                 </video>
             </div>
-            
-            <div class="hover-area">
+            <div class="click-area">
                 <div class="glass-card">
+                    <button class="btn-close">×</button>
                     <span class="note-label">TOP NOTE</span>
                     <h2 class="card-title">Pear & Lily</h2>
                     <div class="line"></div>
-                    <p class="card-desc">Fresh · Sparkling · Green</p>
+                    <div class="card-desc">
+                        <p>Fresh · Sparkling · Green</p>
+                        <span class="sub-desc">깨끗한 리넨 시트 위로 떨어지는 아침 햇살</span>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <section class="section note-section">
+        <section class="section note-section" id="middle-note">
             <div class="video-bg">
-                <video autoplay muted loop playsinline poster="./assets/images/middle/middle.png">
+                <video muted loop playsinline poster="./assets/images/middle/middle.png">
                     <source src="./assets/video/middle/middle.mp4" type="video/mp4">
                 </video>
             </div>
-
-            <div class="hover-area">
+            <div class="click-area">
                 <div class="glass-card">
+                    <button class="btn-close">×</button>
                     <span class="note-label">MIDDLE NOTE</span>
                     <h2 class="card-title">Rose & Iris</h2>
                     <div class="line"></div>
-                    <p class="card-desc">Floral · Powdery · Elegant</p>
+                    <div class="card-desc">
+                        <p>Floral · Powdery · Elegant</p>
+                        <span class="sub-desc">부드럽게 피어오르는 파우더리한 꽃향기</span>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <section class="section note-section">
+        <section class="section note-section" id="base-note">
             <div class="video-bg">
-                <video autoplay muted loop playsinline poster="./assets/images/base/base.png">
+                <video muted loop playsinline poster="./assets/images/base/base.png">
                     <source src="./assets/video/base/base.mp4" type="video/mp4">
                 </video>
             </div>
-
-            <div class="hover-area">
+            <div class="click-area">
                 <div class="glass-card">
+                    <button class="btn-close">×</button>
                     <span class="note-label">BASE NOTE</span>
                     <h2 class="card-title">White Musk</h2>
                     <div class="line"></div>
-                    <p class="card-desc">Soft · Clean · Skin Scent</p>
+                    <div class="card-desc">
+                        <p>Soft · Clean · Skin Scent</p>
+                        <span class="sub-desc">살결처럼 편안하게 스며드는 화이트 머스크의 잔향</span>
+                    </div>
                 </div>
             </div>
         </section>
 
     </main>
+
+    <button id="open-chat-btn">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="24px" height="24px"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H6l-2 2V4h16v12z"/></svg>
+    </button>
+
+    <div id="chat-window">
+        <div class="chat-header">
+            <img src="./assets/images/muse_header.png" alt="Advisor" class="header-img">
+            <div class="header-info">
+                <span class="advisor-name">로레알 뷰티 어드바이저</span>
+                <span class="advisor-status">Online</span>
+            </div>
+            <button class="close-chat" id="close-chat-btn">×</button>
+        </div>
+        <div class="chat-messages" id="chat-messages">
+            <div class="message bot">
+                <div class="bubble">
+                    안녕하세요! 무엇을 도와드릴까요?
+                    오늘의 기분이나 찾으시는 스타일을 말씀해주세요.
+                </div>
+            </div>
+        </div>
+        <div class="chat-input-area">
+            <input type="text" id="chat-input" placeholder="메시지를 입력하세요...">
+            <button id="send-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="18px" height="18px"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+            </button>
+        </div>
+    </div>
 
     <script src="script.js"></script>
 </body>
